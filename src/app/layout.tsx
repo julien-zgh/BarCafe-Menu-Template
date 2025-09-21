@@ -39,6 +39,7 @@ export default function RootLayout({
       <body
         className={`${pacifico.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Analytics />
         <ClientLoader>{children}</ClientLoader>
       </body>
     </html>
