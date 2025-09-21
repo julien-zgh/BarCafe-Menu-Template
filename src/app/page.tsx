@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
@@ -33,11 +34,30 @@ export default function Home() {
     offset: ["start end", "end start"],
   });
 
-  const { height } = dimension;
-  const y = useTransform(scrollYProgress, [0, 1], [0, height * 2]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, height * 3.3]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, height * 1.25]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, height * 3]);
+  const { height, width } = dimension;
+  const isMobile = width <= 768;
+
+  // Reduce motion distance on mobile for smoother performance
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, height * (isMobile ? 0.8 : 2)]
+  );
+  const y2 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, height * (isMobile ? 1.2 : 3.3)]
+  );
+  const y3 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, height * (isMobile ? 0.5 : 1.25)]
+  );
+  const y4 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, height * (isMobile ? 1 : 3)]
+  );
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -62,13 +82,17 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      {/* <div className={`${styles.spacer}`}></div> */}
       <Navbar />
       <div ref={gallery} className={styles.gallery}>
+        {/* On mobile, show fewer columns */}
         <Column images={[images[0], images[1], images[2]]} y={y} />
         <Column images={[images[3], images[4], images[5]]} y={y2} />
-        <Column images={[images[6], images[7], images[8]]} y={y3} />
-        <Column images={[images[9], images[10], images[11]]} y={y4} />
+        {!isMobile && (
+          <>
+            <Column images={[images[6], images[7], images[8]]} y={y3} />
+            <Column images={[images[9], images[10], images[11]]} y={y4} />
+          </>
+        )}
       </div>
       <div className={styles.spacer}>
         <h1
@@ -77,10 +101,10 @@ export default function Home() {
         >
           Our Menu
         </h1>
-        
+
         <section id="menu">
           <CafeMenu />
-        </section>  
+        </section>
 
         <section id="location">
           <Location />
@@ -99,22 +123,24 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ images, y }) => {
   return (
-    <motion.div className={styles.column} style={{ y }}>
-      {images.map((src: string, i: number) => {
-        return (
-          <div key={i} className={styles.imageContainer}>
-            <Image
-              src={`/${src}`}
-              alt="image"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              quality={100}
-              priority={true}
-              className="object-cover"
-            />
-          </div>
-        );
-      })}
+    <motion.div
+      className={styles.column}
+      style={{ y, willChange: "transform" }}
+    >
+      {images.map((src: string, i: number) => (
+        <div key={i} className={styles.imageContainer}>
+          <Image
+            src={`/${src}`}
+            alt="image"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            quality={60} // reduce for mobile
+            priority={i < 2} // load first two eagerly
+            className="object-cover"
+            loading={i < 2 ? "eager" : "lazy"} // lazy-load others
+          />
+        </div>
+      ))}
     </motion.div>
   );
 };
