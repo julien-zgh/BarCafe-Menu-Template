@@ -22,11 +22,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Space Cafe Bar",
   description: "Welcome to the Space!",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "icon", type: "image/x-icon", url: "/favicon.ico" },
+  ],
 };
 
 export default function RootLayout({
