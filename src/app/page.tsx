@@ -38,27 +38,45 @@ export default function Home() {
 
   // Reduce transform intensity on mobile for better performance
   const multiplier = isMobile ? 0.5 : 1;
-  const y = useTransform(scrollYProgress, [0, 1], [0, height * 2 * multiplier]);
+
+  // Add rounding to prevent sub-pixel movements
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, height * 2 * multiplier],
+    {
+      clamp: true,
+    }
+  );
   const y2 = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, height * 3.3 * multiplier]
+    [0, height * 3.3 * multiplier],
+    { clamp: true }
   );
   const y3 = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, height * 1.25 * multiplier]
+    [0, height * 1.25 * multiplier],
+    { clamp: true }
   );
   const y4 = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, height * 3 * multiplier]
+    [0, height * 3 * multiplier],
+    { clamp: true }
   );
 
   useEffect(() => {
     const lenis = new Lenis({
-      // Reduce smoothing on mobile for better performance
-      lerp: window.innerWidth < 768 ? 0.8 : 0.1,
+      // Adjust settings for smoother stop behavior
+      lerp: window.innerWidth < 768 ? 0.8 : 0.15, // Slightly higher lerp for desktop
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
     });
 
     const raf = (time: number) => {
@@ -79,6 +97,7 @@ export default function Home() {
 
     return () => {
       window.removeEventListener("resize", resize);
+      lenis.destroy();
     };
   }, []);
 
@@ -154,8 +173,15 @@ const Column: React.FC<ColumnProps> = ({ images, y, isMobile }) => {
       className={styles.column}
       style={{
         y,
-        // Use transform3d for better mobile performance
+        // Use transform3d for better mobile performance and add will-change
         transform: isMobile ? "translate3d(0, 0, 0)" : undefined,
+        willChange: "transform",
+      }}
+      // Add transition for smoother stops
+      transition={{
+        type: "tween",
+        ease: "linear",
+        duration: 0,
       }}
     >
       {images.map((src: string, i: number) => {
