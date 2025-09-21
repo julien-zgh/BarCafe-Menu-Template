@@ -33,6 +33,11 @@ const Gallery = () => {
         <ColumnsPhotoAlbum
           photos={photos}
           onClick={({ index: current }) => setIndex(current)}
+          columns={(containerWidth: number) => {
+            if (containerWidth < 640) return 2; // small screens
+            if (containerWidth < 1024) return 3; // medium screens
+            return 4; // large screens
+          }}
         />
 
         <Lightbox

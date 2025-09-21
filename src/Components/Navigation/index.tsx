@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import SpecialImage from "../SpecialImage";
+import Link from "next/link";
 
 const navLinks = [
   // { name: "Home", href: "/" },
@@ -47,12 +48,14 @@ export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: bool
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
         {/* Logo */}
         <div className="relative w-20 h-20">
-          <SpecialImage
-            src="/logo.jpg"
-            alt="Logo"
-            fill
-            className="object-contain rounded-full border-2 border-white-400"
-          />
+          <Link href="/">
+            <SpecialImage
+              src="/logo.jpg"
+              alt="Logo"
+              fill
+              className="object-contain rounded-full border-2 border-white-400"
+            />
+          </Link>
         </div>
 
         {/* Desktop Links */}
@@ -68,7 +71,7 @@ export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: bool
                 } else if (link.href.startsWith("/")) {
                   router.push(link.href);
                 } else {
-                  if(setOpenCalendar) {
+                  if (setOpenCalendar) {
                     setOpenCalendar(true);
                   }
                 }
