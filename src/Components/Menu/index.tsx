@@ -11,7 +11,7 @@ const CafeMenu = () => {
           <div className="w-full aspect-[4/5] bg-gradient-to-br from-amber-50 to-stone-100 rounded-lg overflow-hidden shadow-lg">
             <div className="absolute inset-0 flex items-center justify-center p-6 rounded">
               <Image
-                src="/3.jpg"
+                src="/16.jpg"
                 alt="Space Cafe Bar "
                 fill
                 className="object-cover rounded"
@@ -52,7 +52,7 @@ const CafeMenu = () => {
           <div className="w-full aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg overflow-hidden shadow-lg">
             <div className="absolute inset-0 flex items-center justify-center">
               <Image
-                src="/3.jpg"
+                src="/15.jpg"
                 alt="Space Cafe Bar "
                 fill
                 className="object-cover rounded"
@@ -96,7 +96,7 @@ const CafeMenu = () => {
         <div className="flex items-center justify-center w-full">
           <div className="w-full aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden shadow-lg relative rounded-lg">
             <Image
-              src="/3.jpg"
+              src="/14.jpg"
               alt="Space Cafe Bar "
               fill
               className="object-cover rounded"
@@ -140,7 +140,7 @@ const CafeMenu = () => {
           <div className="w-full aspect-[4/5] bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg overflow-hidden shadow-lg">
             <div className="absolute inset-0 flex items-center justify-center p-6 rounded">
               <Image
-                src="/3.jpg"
+                src="/12.jpg"
                 alt="Smoothie Left"
                 fill
                 className="object-cover rounded"
@@ -179,7 +179,7 @@ const CafeMenu = () => {
           <div className="w-full aspect-[4/5] bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg overflow-hidden shadow-lg">
             <div className="absolute inset-0 flex items-center justify-center">
               <Image
-                src="/3.jpg"
+                src="/11.jpg"
                 alt="Smoothie Right"
                 fill
                 className="object-cover rounded"
