@@ -1,41 +1,65 @@
-"use client";
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import SpecialImage from "../SpecialImage";
 import Link from "next/link";
 
 const navLinks = [
-  // { name: "Home", href: "/" },
-  { name: "Menu", href: "#menu" },
-  { name: "Location", href: "#location" },
+  { name: "Menu", href: "/#menu" },
+  { name: "Location", href: "/#location" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Event Calendar", href: "eventCalendar"}
+  { name: "Event Calendar", href: "eventCalendar" },
 ];
 
-export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: boolean) => void}) {
+export default function Navbar({
+  setOpenCalendar,
+}: {
+  setOpenCalendar?: (open: boolean) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
-  const handleScroll = (
+  const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
     e.preventDefault();
-    const targetId = href.replace("#", "");
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const navbarHeight = 180; // adjust to your navbar height
-      const elementPosition =
-        targetElement.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - navbarHeight,
-        behavior: "smooth",
-      });
+    setIsOpen(false);
+
+    if (href.startsWith("/#") || href.startsWith("#")) {
+      const targetId = href.replace("/#", "").replace("#", "");
+
+      if (pathname === "/") {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          const navbarHeight = 180;
+          const elementPosition =
+            targetElement.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: elementPosition - navbarHeight,
+            behavior: "smooth",
+          });
+        }
+      } else {
+        router.push(href);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          const navbarHeight = 180;
+          const elementPosition =
+            targetElement.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: elementPosition - navbarHeight,
+            behavior: "smooth",
+          });
+        }
+      }
+    } else if (href.startsWith("/")) {
+      router.push(href);
+    } else {
+      setOpenCalendar?.(true);
     }
-    setIsOpen(false); // close mobile menu
   };
 
   return (
@@ -64,18 +88,7 @@ export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: bool
             <a
               key={link.name}
               href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                if (link.href.startsWith("#")) {
-                  handleScroll(e, link.href);
-                } else if (link.href.startsWith("/")) {
-                  router.push(link.href);
-                } else {
-                  if (setOpenCalendar) {
-                    setOpenCalendar(true);
-                  }
-                }
-              }}
+              onClick={(e) => handleLinkClick(e, link.href)}
               className="text-black hover:text-gray-900 transition text-lg font-medium"
             >
               {link.name}
@@ -87,7 +100,7 @@ export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: bool
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex flex-col gap-1 w-6 h-5 justify-center"
+            className="flex flex-col gap-1 w-6 h-5 justify-center text-black"
             aria-label="Toggle menu"
           >
             {isOpen ? <X /> : <Menu />}
@@ -108,18 +121,7 @@ export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: bool
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (link.href.startsWith("#")) {
-                      handleScroll(e, link.href);
-                    } else if (link.href.startsWith("/")) {
-                      router.push(link.href);
-                    } else {
-                      if (setOpenCalendar) {
-                        setOpenCalendar(true);
-                      }
-                    }
-                  }}
+                  onClick={(e) => handleLinkClick(e, link.href)}
                   className="text-gray-700 hover:text-gray-900 transition"
                 >
                   {link.name}

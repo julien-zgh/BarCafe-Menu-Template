@@ -8,8 +8,10 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import useSmoothScroll from "@/lib/hooks/SmoothScroll";
 
 const Gallery = () => {
+  useSmoothScroll(0.85);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [index, setIndex] = useState(-1);
 
