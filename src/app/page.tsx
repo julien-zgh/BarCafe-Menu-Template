@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
@@ -34,30 +33,11 @@ export default function Home() {
     offset: ["start end", "end start"],
   });
 
-  const { height, width } = dimension;
-  const isMobile = width <= 768;
-
-  // Adjust motion distance for mobile
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, height * (isMobile ? 1 : 2)]
-  );
-  const y2 = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, height * (isMobile ? 1.2 : 3.3)]
-  );
-  const y3 = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, height * (isMobile ? 0.8 : 1.25)]
-  );
-  const y4 = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, height * (isMobile ? 1 : 3)]
-  );
+  const { height } = dimension;
+  const y = useTransform(scrollYProgress, [0, 1], [0, height * 2]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, height * 3.3]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, height * 1.25]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [0, height * 3]);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -75,23 +55,21 @@ export default function Home() {
     requestAnimationFrame(raf);
     resize();
 
-    return () => window.removeEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
   }, []);
 
   return (
     <main className={styles.main}>
+      {/* <div className={`${styles.spacer}`}></div> */}
       <Navbar />
       <div ref={gallery} className={styles.gallery}>
-        <Column images={[images[0], images[1], images[2]]} y={y} delay={0} />
-        <Column images={[images[3], images[4], images[5]]} y={y2} delay={0.1} />
-        <Column images={[images[6], images[7], images[8]]} y={y3} delay={0.2} />
-        <Column
-          images={[images[9], images[10], images[11]]}
-          y={y4}
-          delay={0.3}
-        />
+        <Column images={[images[0], images[1], images[2]]} y={y} />
+        <Column images={[images[3], images[4], images[5]]} y={y2} />
+        <Column images={[images[6], images[7], images[8]]} y={y3} />
+        <Column images={[images[9], images[10], images[11]]} y={y4} />
       </div>
-
       <div className={styles.spacer}>
         <h1
           style={{ fontFamily: "var(--font-pacifico)" }}
@@ -99,10 +77,10 @@ export default function Home() {
         >
           Our Menu
         </h1>
-
+        
         <section id="menu">
           <CafeMenu />
-        </section>
+        </section>  
 
         <section id="location">
           <Location />
@@ -117,32 +95,26 @@ export default function Home() {
 interface ColumnProps {
   images: string[];
   y: MotionValue<number>;
-  delay?: number;
 }
 
-const Column: React.FC<ColumnProps> = ({ images, y, delay = 0 }) => {
+const Column: React.FC<ColumnProps> = ({ images, y }) => {
   return (
-    <motion.div
-      className={styles.column}
-      style={{ y, willChange: "transform" }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 0.8 }}
-    >
-      {images.map((src: string, i: number) => (
-        <div key={i} className={styles.imageContainer}>
-          <Image
-            src={`/${src}`}
-            alt="image"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            quality={60}
-            priority={i < 2} // load first two eagerly
-            loading={i < 2 ? "eager" : "lazy"}
-            className="object-cover pointer-events-none"
-          />
-        </div>
-      ))}
+    <motion.div className={styles.column} style={{ y }}>
+      {images.map((src: string, i: number) => {
+        return (
+          <div key={i} className={styles.imageContainer}>
+            <Image
+              src={`/${src}`}
+              alt="image"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              quality={70}
+              priority={true}
+              className="object-cover"
+            />
+          </div>
+        );
+      })}
     </motion.div>
   );
 };
