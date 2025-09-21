@@ -10,7 +10,7 @@ import { Footer } from "@/Components/Footer";
 import { Location } from "@/Components/Location";
 import { defaultMarkerImage } from "@/Components/SpecialImage/default";
 
-export const images: string[] = [
+const images: string[] = [
   "1.jpg",
   "2.jpg",
   "3.jpg",
