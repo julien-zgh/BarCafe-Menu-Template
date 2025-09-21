@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-pacifico: var(--font-pacifico);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +21,103 @@
 }
 
 body {
-  background: var(--background);
+  background: transparent;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Center coffee loader content */
+.coffee-loader {
+  position: relative;
+  width: 120px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Coffee cup base */
+.cup {
+  width: 100px;
+  height: 80px;
+  background: #fff;
+  border-radius: 0 0 50px 50px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.cup::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -25px;
+  width: 25px;
+  height: 40px;
+  border: 5px solid #fff;
+  border-right: none;
+  border-radius: 50px 0 0 50px;
+}
+
+/* Coffee liquid animation */
+.coffee {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: #6f4e37; /* coffee brown */
+  animation: fill 2s infinite ease-in-out alternate;
+  border-radius: 0 0 40px 40px;
+}
+
+@keyframes fill {
+  0% {
+    height: 30%;
+  }
+  100% {
+    height: 60%;
+  }
+}
+
+/* Steam animation */
+.steam {
+  position: absolute;
+  width: 12px;
+  height: 50px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 50%;
+  animation: rise 3s infinite ease-in-out;
+  opacity: 0;
+}
+
+.steam1 {
+  left: 50%;
+  margin-left: -25px;
+  animation-delay: 0s;
+}
+
+.steam2 {
+  left: 50%;
+  margin-left: -5px;
+  animation-delay: 0.5s;
+}
+
+.steam3 {
+  left: 50%;
+  margin-left: 15px;
+  animation-delay: 1s;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(10px) scaleX(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) scaleX(1);
+    opacity: 0;
+  }
 }
