@@ -22,6 +22,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Space Cafe Bar",
   description: "Welcome to the Space!",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -31,13 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      </head>
       <body
         className={`${pacifico.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Client loader wraps the children */}
         <ClientLoader>{children}</ClientLoader>
       </body>
     </html>
