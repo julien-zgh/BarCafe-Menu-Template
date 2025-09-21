@@ -170,7 +170,7 @@ const Column: React.FC<ColumnProps> = ({ images, y, isMobile }) => {
                   ? "(max-width: 768px) 50vw"
                   : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               }
-              quality={isMobile ? 60 : 70} // Lower quality on mobile
+              quality={isMobile ? 85 : 100} // Lower quality on mobile
               priority={i < 2} // Only prioritize first 2 images per column
               className="object-cover"
               loading={i < 2 ? "eager" : "lazy"} // Lazy load images below the fold
