@@ -86,8 +86,9 @@ export default function Home() {
   const getColumnImages = () => {
     if (isMobile) {
       return [
-        [images[0], images[2], images[4], images[6], images[8], images[10]], // Column 1
-        [images[1], images[3], images[5], images[7], images[9], images[11]], // Column 2
+        [images[0], images[2], images[4], images[6]], // Column 1
+        [images[8], images[10], images[1], images[3]], //Column 2
+        [images[5], images[7], images[9], images[11]], // Column 3
       ];
     } else {
       return [

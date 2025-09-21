@@ -5,7 +5,7 @@ export const Location = () => {
           style={{ fontFamily: "var(--font-pacifico)" }}
           className="text-center pt-4 pb-4 text-6xl"
         >
-          Our Location
+          Find Us
         </h1>
         <div className="w-3/4 h-[400px] flex justify-center items-center mx-auto mb-16">
           <iframe

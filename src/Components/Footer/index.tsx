@@ -8,7 +8,7 @@ export const Footer = () => {
       {/* Instagram logo */}
       <div className="mb-2 sm:mb-0 sm:absolute sm:right-4 flex justify-center w-full sm:w-auto">
         <a
-          href="https://www.instagram.com/builtbyjulien_/"
+          href="https://www.instagram.com/spacecafebar/"
           target="_blank"
           rel="noopener noreferrer"
         >
