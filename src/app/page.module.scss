@@ -94,13 +94,10 @@
 
 // Additional mobile performance optimizations
 @media (max-width: 767px) {
-  * {
-    // Reduce motion on mobile for better performance
-    transform-style: flat;
-  }
   
   // Optimize scrolling performance
   .gallery {
+    transform-style: flat;
     -webkit-overflow-scrolling: touch;
   }
 }
