@@ -37,11 +37,11 @@ export default function Home() {
   const { height, width } = dimension;
   const isMobile = width <= 768;
 
-  // Reduce motion distance on mobile for smoother performance
+  // Adjust motion distance for mobile
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, height * (isMobile ? 0.8 : 2)]
+    [0, height * (isMobile ? 1 : 2)]
   );
   const y2 = useTransform(
     scrollYProgress,
@@ -51,7 +51,7 @@ export default function Home() {
   const y3 = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, height * (isMobile ? 0.5 : 1.25)]
+    [0, height * (isMobile ? 0.8 : 1.25)]
   );
   const y4 = useTransform(
     scrollYProgress,
@@ -75,25 +75,23 @@ export default function Home() {
     requestAnimationFrame(raf);
     resize();
 
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
   return (
     <main className={styles.main}>
       <Navbar />
       <div ref={gallery} className={styles.gallery}>
-        {/* On mobile, show fewer columns */}
-        <Column images={[images[0], images[1], images[2]]} y={y} />
-        <Column images={[images[3], images[4], images[5]]} y={y2} />
-        {!isMobile && (
-          <>
-            <Column images={[images[6], images[7], images[8]]} y={y3} />
-            <Column images={[images[9], images[10], images[11]]} y={y4} />
-          </>
-        )}
+        <Column images={[images[0], images[1], images[2]]} y={y} delay={0} />
+        <Column images={[images[3], images[4], images[5]]} y={y2} delay={0.1} />
+        <Column images={[images[6], images[7], images[8]]} y={y3} delay={0.2} />
+        <Column
+          images={[images[9], images[10], images[11]]}
+          y={y4}
+          delay={0.3}
+        />
       </div>
+
       <div className={styles.spacer}>
         <h1
           style={{ fontFamily: "var(--font-pacifico)" }}
@@ -119,13 +117,17 @@ export default function Home() {
 interface ColumnProps {
   images: string[];
   y: MotionValue<number>;
+  delay?: number;
 }
 
-const Column: React.FC<ColumnProps> = ({ images, y }) => {
+const Column: React.FC<ColumnProps> = ({ images, y, delay = 0 }) => {
   return (
     <motion.div
       className={styles.column}
       style={{ y, willChange: "transform" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration: 0.8 }}
     >
       {images.map((src: string, i: number) => (
         <div key={i} className={styles.imageContainer}>
@@ -134,10 +136,10 @@ const Column: React.FC<ColumnProps> = ({ images, y }) => {
             alt="image"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            quality={60} // reduce for mobile
+            quality={60}
             priority={i < 2} // load first two eagerly
-            className="object-cover"
-            loading={i < 2 ? "eager" : "lazy"} // lazy-load others
+            loading={i < 2 ? "eager" : "lazy"}
+            className="object-cover pointer-events-none"
           />
         </div>
       ))}
