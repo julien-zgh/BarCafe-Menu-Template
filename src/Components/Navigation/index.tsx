@@ -2,17 +2,21 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import SpecialImage from "../SpecialImage";
 
 const navLinks = [
   // { name: "Home", href: "/" },
   { name: "Menu", href: "#menu" },
   { name: "Location", href: "#location" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Event Calendar", href: "eventCalendar"}
 ];
 
-export default function Navbar() {
+export default function Navbar({setOpenCalendar}: {setOpenCalendar?: (open: boolean) => void}) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -43,7 +47,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
         {/* Logo */}
         <div className="relative w-20 h-20">
-          <Image
+          <SpecialImage
             src="/logo.jpg"
             alt="Logo"
             fill
@@ -57,7 +61,18 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              onClick={(e) => handleScroll(e, link.href)}
+              onClick={(e) => {
+                e.preventDefault();
+                if (link.href.startsWith("#")) {
+                  handleScroll(e, link.href);
+                } else if (link.href.startsWith("/")) {
+                  router.push(link.href);
+                } else {
+                  if(setOpenCalendar) {
+                    setOpenCalendar(true);
+                  }
+                }
+              }}
               className="text-black hover:text-gray-900 transition text-lg font-medium"
             >
               {link.name}
@@ -90,7 +105,18 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={(e) => handleScroll(e, link.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (link.href.startsWith("#")) {
+                      handleScroll(e, link.href);
+                    } else if (link.href.startsWith("/")) {
+                      router.push(link.href);
+                    } else {
+                      if (setOpenCalendar) {
+                        setOpenCalendar(true);
+                      }
+                    }
+                  }}
                   className="text-gray-700 hover:text-gray-900 transition"
                 >
                   {link.name}

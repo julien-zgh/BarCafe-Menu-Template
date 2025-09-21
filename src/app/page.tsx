@@ -8,8 +8,9 @@ import Navbar from "@/Components/Navigation";
 import CafeMenu from "@/Components/Menu";
 import { Footer } from "@/Components/Footer";
 import { Location } from "@/Components/Location";
+import { defaultMarkerImage } from "@/Components/SpecialImage/default";
 
-const images: string[] = [
+export const images: string[] = [
   "1.jpg",
   "2.jpg",
   "3.jpg",
@@ -22,12 +23,16 @@ const images: string[] = [
   "10.jpg",
   "11.jpg",
   "12.jpg",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
 ];
 
 export default function Home() {
   const gallery = useRef<HTMLDivElement>(null);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [openCalendar, setOpenCalendar] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: gallery,
@@ -121,9 +126,13 @@ export default function Home() {
 
   const columnImages = getColumnImages();
 
+  if(openCalendar) {
+    console.log("Calendar is open");
+  }
+
   return (
     <main className={styles.main}>
-      <Navbar />
+      <Navbar setOpenCalendar={setOpenCalendar} />
       <div ref={gallery} className={styles.gallery}>
         {isMobile ? (
           <>
@@ -196,10 +205,15 @@ const Column: React.FC<ColumnProps> = ({ images, y, isMobile }) => {
                   ? "(max-width: 768px) 50vw"
                   : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               }
-              quality={isMobile ? 85 : 100} // Lower quality on mobile
-              priority={i < 2} // Only prioritize first 2 images per column
+              quality={isMobile ? 85 : 100}
+              priority={i < 2}
+              loading={i < 2 ? "eager" : "lazy"}
               className="object-cover"
-              loading={i < 2 ? "eager" : "lazy"} // Lazy load images below the fold
+              placeholder="blur"
+              blurDataURL={defaultMarkerImage}
+              onLoad={(event) => {
+                event.currentTarget.setAttribute("data-loaded", "true");
+              }}
             />
           </div>
         );
