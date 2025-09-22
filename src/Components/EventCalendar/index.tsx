@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import { Dayjs } from "dayjs";
 import SpecialImage from "../SpecialImage";
 import HumanDate from "../HumanDate";
+import SafeHtml from "../SafeHTML";
 
 interface EventCalendarProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ const events: Record<string, Event[]> = {
       title: "Morning Yoga Session",
       dateNtime: "2025-09-27 06:00 PM",
       description:
-        "The Fan is going to Byblos this Saturday, hosted by @spacecafebar for a proper season closing.\nMusic starts at 6pm so be there early.\nLineup:\n@andreo.wav\n@bobgemaa\n@j_bitar\n@sarahouss\n@yaramorkos\nSound system is brought to you by none else than @wavetablestudios\nOh and no tickets this time, Free Entrance!",
+        "The Fan is going to Byblos this Saturday, hosted by @spacecafebar for a proper season closing.<br />Music starts at 6pm so be there early.<br />Lineup:<br />@andreo.wav<br />@bobgemaa<br />@j_bitar<br />@sarahouss<br />@yaramorkos<br />Sound system is brought to you by none else than @wavetablestudios<br />Oh and no tickets this time, Free Entrance!",
       thumbnail: "/events/event1.jpg",
     },
   ],
@@ -81,7 +82,12 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
         </LocalizationProvider>
 
         <GeneralModal isOpen={!!anchorEl} onClose={handlePopoverClose}>
-          <div className="w-full sm:w-3/4 md:w-1/2 lg:w-full mx-auto h-full p-6 text-black flex flex-col gap-6">
+          <div
+            className="w-full sm:w-3/4 md:w-1/2 lg:w-full mx-auto p-6 text-black flex flex-col gap-6 
+               overflow-y-auto max-h-[90vh]"
+            onWheel={(e) => e.stopPropagation()} // Prevent scroll bubbling to parent
+            onTouchMove={(e) => e.stopPropagation()} // Mobile touch scroll fix
+          >
             {selectedDate &&
               events[selectedDate].map((ev, idx) => (
                 <div
@@ -93,8 +99,8 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
                     <SpecialImage
                       src={ev.thumbnail}
                       alt="Event Image"
-                      width={800} // Use actual image dimensions if known
-                      height={600} // Use actual image dimensions if known
+                      width={800}
+                      height={600}
                       className="w-full h-auto rounded-xl"
                     />
                   </div>
@@ -105,14 +111,19 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
                   >
                     {ev.title}
                   </Typography>
+
                   <Typography
                     variant="subtitle1"
                     className="text-red-600 font-medium mb-2"
                   >
                     <HumanDate date={ev.dateNtime} />
                   </Typography>
-                  <Typography className="text-gray-700 text-center">
-                    {ev.description}
+
+                  <Typography
+                    className="text-gray-700 text-center"
+                    component="div"
+                  >
+                    <SafeHtml html={ev.description} />
                   </Typography>
                 </div>
               ))}

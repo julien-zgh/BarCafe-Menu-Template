@@ -16,6 +16,17 @@ const GeneralModal: React.FC<ModalProps> = ({
   maxWidth = "max-w-lg",
   closeOnOutsideClick = true,
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // Prevent background scroll
+    } else {
+      document.body.style.overflow = ""; // Reset when closed
+    }
+
+    return () => {
+      document.body.style.overflow = ""; // Cleanup on unmount
+    };
+  }, [isOpen]);
   // Handle ESC key to close modal
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
