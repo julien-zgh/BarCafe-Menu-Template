@@ -84,7 +84,7 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
         <GeneralModal isOpen={!!anchorEl} onClose={handlePopoverClose}>
           <div
             className="w-full sm:w-3/4 md:w-1/2 lg:w-full mx-auto p-6 text-black flex flex-col gap-6 
-               overflow-y-auto max-h-[90vh]"
+               overflow-y-auto max-h-[90vh] bg-[#f2e6d3]"
             onWheel={(e) => e.stopPropagation()} // Prevent scroll bubbling to parent
             onTouchMove={(e) => e.stopPropagation()} // Mobile touch scroll fix
           >
