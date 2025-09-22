@@ -27,7 +27,7 @@ const events: Record<string, Event[]> = {
       title: "Morning Yoga Session",
       dateNtime: "2025-09-27 06:00 PM",
       description:
-        "The Fan is going to Byblos this Saturday, hosted by @spacecafebar for a proper season closing.<br />Music starts at 6pm so be there early.<br />Lineup:<br />@andreo.wav<br />@bobgemaa<br />@j_bitar<br />@sarahouss<br />@yaramorkos<br />Sound system is brought to you by none else than @wavetablestudios<br />Oh and no tickets this time, Free Entrance!",
+        "The Fan is going to Byblos this Saturday, hosted by @spacecafebar for a proper season closing. Music starts at 6pm so be there early.<br />Lineup: @andreo.wav @bobgemaa @j_bitar @sarahouss @yaramorkos<br />Sound system is brought to you by none else than @wavetablestudios<br />Oh and no tickets this time, Free Entrance!",
       thumbnail: "/events/event1.jpg",
     },
   ],
@@ -84,7 +84,7 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
         <GeneralModal isOpen={!!anchorEl} onClose={handlePopoverClose}>
           <div
             className="w-full sm:w-3/4 md:w-1/2 lg:w-full mx-auto p-6 text-black flex flex-col gap-6 
-               overflow-y-auto max-h-[90vh] bg-[#f2e6d3]"
+               overflow-y-auto bg-[#f2e6d3]"
             onWheel={(e) => e.stopPropagation()} // Prevent scroll bubbling to parent
             onTouchMove={(e) => e.stopPropagation()} // Mobile touch scroll fix
           >
@@ -120,7 +120,7 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
                   </Typography>
 
                   <Typography
-                    className="text-gray-700 text-center"
+                    className="text-gray-700"
                     component="div"
                   >
                     <SafeHtml html={ev.description} />
