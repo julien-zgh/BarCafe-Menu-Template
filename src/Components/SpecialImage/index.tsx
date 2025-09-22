@@ -24,6 +24,7 @@ const SpecialImage = ({
       alt={alt || "Image"}
       placeholder="blur"
       blurDataURL={defaultMarkerImage}
+      quality="100"
       {...(!fill
         ? {
             width: width ?? 100,

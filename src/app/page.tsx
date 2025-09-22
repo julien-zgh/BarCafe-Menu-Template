@@ -4,7 +4,6 @@ import styles from "./page.module.scss";
 import Image from "next/image";
 import Lenis from "@studio-freight/lenis";
 import { useTransform, useScroll, motion, MotionValue } from "framer-motion";
-import Navbar from "@/Components/Navigation";
 import CafeMenu from "@/Components/Menu";
 import { Footer } from "@/Components/Footer";
 import { Location } from "@/Components/Location";
@@ -32,7 +31,6 @@ export default function Home() {
   const gallery = useRef<HTMLDivElement>(null);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
   const [isMobile, setIsMobile] = useState(false);
-  const [openCalendar, setOpenCalendar] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: gallery,
@@ -126,13 +124,8 @@ export default function Home() {
 
   const columnImages = getColumnImages();
 
-  if(openCalendar) {
-    console.log("Calendar is open");
-  }
-
   return (
     <main className={styles.main}>
-      <Navbar setOpenCalendar={setOpenCalendar} />
       <div ref={gallery} className={styles.gallery}>
         {isMobile ? (
           <>

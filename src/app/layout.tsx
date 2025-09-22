@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Pacifico } from "next/font/google";
 import "./globals.css";
 import ClientLoader from "./ClientLoader";
 import { Analytics } from "@vercel/analytics/next";
+import Navbar from "@/Components/Navigation";
+import InteractiveNavbarWrapper from "@/Components/Navigation/InteractiveNavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +36,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${pacifico.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Analytics />
-        <ClientLoader>{children}</ClientLoader>
+        <ClientLoader>
+          <InteractiveNavbarWrapper />
+          {children}
+        </ClientLoader>
       </body>
     </html>
   );
