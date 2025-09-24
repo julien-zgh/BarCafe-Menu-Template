@@ -13,7 +13,7 @@ const GeneralModal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
-  maxWidth = "max-w-lg",
+  maxWidth = "max-w-2xl",
   closeOnOutsideClick = true,
 }) => {
   useEffect(() => {
