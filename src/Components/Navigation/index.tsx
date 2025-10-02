@@ -73,12 +73,12 @@ export default function Navbar({
         {/* Logo */}
         <div className="relative w-20 h-20">
           <Link href="/">
-            <SpecialImage
-              src="/logo.jpg"
+            {/* <SpecialImage
+              src="/"
               alt="Logo"
               fill
               className="object-contain rounded-full border-2 border-white-400"
-            />
+            /> */}
           </Link>
         </div>
 
